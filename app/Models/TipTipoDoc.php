@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class TipTipoDoc extends Model
 {
     use HasFactory;
+
+    protected $table = "tip_tipo_doc";
+    protected $fillable = [
+        'tip_nombre',
+        'tip_prefijo'
+    ];
+
+    public function docDocuments()
+    {
+        return $this->hasMany(DocDocumento::class, 'doc_id_tipo');
+    }
+
 }
