@@ -10,10 +10,16 @@ class DocDocumento extends Model
     use HasFactory;
 
     protected $table = "doc_documento";
+
+    protected $primaryKey = "doc_id";    
+
     protected $fillable = [
         'doc_nombre',
         'doc_codigo',
-        'doc_contenido'
+        'doc_contenido',
+        'doc_id_tipo',
+        'doc_id_proceso'
+
     ];
 
     public function proProceso()
