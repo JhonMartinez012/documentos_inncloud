@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DocDocumentoController;
 use App\Http\Controllers\ProProcesoController;
 use App\Http\Controllers\TipTipoDocController;
@@ -22,26 +23,38 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+], function ($router) {
+    Route::post('login', [AuthController::class,'login']);
+    Route::post('register', [AuthController::class,'register']);
+    Route::post('logout', [AuthController::class,'logout']);
+    Route::post('refresh', [AuthController::class,'refresh']);
+    Route::post('me', [AuthController::class,'me']);
+});
+
 
 Route::group([
+    'middleware' => 'api',
     'prefix' => 'procesos'
 ], function ($router) {
     Route::get('listar', [ProProcesoController::class, 'listarProcesos']);
 });
 
 Route::group([
+    'middleware' => 'api',
     'prefix' => 'tipo-documento'
 ], function ($router) {
-    Route::get('listar', [TipTipoDocController::class , 'listarTipos']);
+    Route::get('listar', [TipTipoDocController::class, 'listarTipos']);
 });
 
 Route::group([
+    'middleware' => 'api',
     'prefix' => 'documentos'
 ], function ($router) {
-    Route::get('listar', [DocDocumentoController::class,'listarDocumentos']);
-    Route::post('registrar', [DocDocumentoController::class,'registrarDocumento']);
-    Route::put('editar/{id}', [DocDocumentoController::class,'editarDocumento']);
-    Route::delete('eliminar/{id}', [DocDocumentoController::class,'eliminarDocumento']);
+    Route::get('listar', [DocDocumentoController::class, 'listarDocumentos']);
+    Route::post('registrar', [DocDocumentoController::class, 'registrarDocumento']);
+    Route::put('editar/{id}', [DocDocumentoController::class, 'editarDocumento']);
+    Route::delete('eliminar/{id}', [DocDocumentoController::class, 'eliminarDocumento']);
 });
-
-
