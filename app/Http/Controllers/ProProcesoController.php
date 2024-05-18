@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 class ProProcesoController extends Controller
 {
     //
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     public function listarProcesos(){
         try {
             $listProcesos = ProProceso::all();

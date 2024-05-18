@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class TipTipoDocController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     //funcion para listar todos los tipos de documentos
     public function listarTipos(){
         $listTiposDoc = TipTipoDoc::get();
