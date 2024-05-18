@@ -41,11 +41,11 @@ class DocDocumentoController extends Controller
 
             // Se llama la funcion que calcula el codigo
             $codigo = $this->calcularCodigo($request['doc_id_tipo'], $request['doc_id_proceso']);
-
+            
 
             $registro = DocDocumento::create([
                 'doc_nombre' => $request['doc_nombre'],
-                'doc_codigo' => $codigo['codigo'],
+                'doc_codigo' => $codigo,
                 'doc_contenido' => $request['doc_contenido'],
                 'doc_id_tipo' => $request['doc_id_tipo'],
                 'doc_id_proceso' => $request['doc_id_proceso']
@@ -57,6 +57,7 @@ class DocDocumentoController extends Controller
         }
 
         return response()->json([
+            'status' => 201,
             'message' => 'Documento registrado correctamente',
             'data' => $registro
         ], 201);
@@ -70,7 +71,7 @@ class DocDocumentoController extends Controller
             'doc_id_tipo' => 'integer',
             'doc_id_proceso' => 'integer'
         ]);
-
+        
         $documento = DocDocumento::where('doc_id', $id)->exists();
 
         if (!$documento) {
@@ -106,6 +107,20 @@ class DocDocumentoController extends Controller
 
     public function eliminarDocumento($id)
     {
+        $documento = DocDocumento::where('doc_id', $id)->exists();
+
+        if (!$documento) {
+            return response()->json([
+                'message' => 'No se encontro el documento',
+            ], 404);
+        }
+
+        $documento = DocDocumento::where('doc_id', $id)->delete();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Documento eliminado correctamente',
+        ], 200);
     }
 
     public function calcularCodigo($nDoc_id_tipo, $nDoc_id_proceso)
